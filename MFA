@@ -1,0 +1,44 @@
+import random
+import time
+
+def gerar_codigo_verificacao():
+    """Função que gera um código de verificação de 8 dígitos aleatórios"""
+    return str(random.randint(10000000, 99999999))  # 8 dígitos
+
+def enviar_codigo_usuario(codigo):
+    """Simula o envio do código ao usuário (no mundo real, aqui enviaria um SMS ou email)"""
+    print(f"[INFO] Código de verificação gerado: {codigo}")
+
+def autenticar_usuario():
+    """Função de autenticação que gera e valida o código de MFA"""
+    # Etapa 1: Gerar código aleatório de 8 dígitos
+    codigo_gerado = gerar_codigo_verificacao()
+
+    # Etapa 2: Enviar código ao usuário
+    enviar_codigo_usuario(codigo_gerado)
+
+    # Etapa 3: Definir tempo de validade do código (Ex: 30 segundos)
+    tempo_limite = 30
+    print(f"[INFO] O código de verificação expira em {tempo_limite} segundos.")
+    print("[INFO] Tem 30 segundos para inserir o código.")
+
+    # Começar contagem do tempo de expiração
+    tempo_inicio = time.time()
+
+    # Etapa 4: Solicitar o código de volta ao usuário
+    codigo_digitado = input("Digite o código de verificação: ")
+
+    # Verificar o tempo de validade
+    tempo_decorrido = time.time() - tempo_inicio
+    if tempo_decorrido > tempo_limite:
+        print("[ERROR] O tempo para inserir o código expirou. Tente novamente.")
+        return
+
+    # Verificar se o código digitado corresponde ao gerado
+    if codigo_digitado == codigo_gerado:
+        print("[SUCCESS] Autenticação bem-sucedida!")
+    else:
+        print("[ERROR] Código incorreto. Tente novamente.")
+
+# Chamar a função de autenticação
+autenticar_usuario()
